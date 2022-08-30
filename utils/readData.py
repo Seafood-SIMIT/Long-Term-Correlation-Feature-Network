@@ -6,9 +6,28 @@
 @读取原始txt音频文件
 '''
 import os
+import pywt
 import numpy as np
 import librosa
-def preProcessAco(data_aco,input_size=20):
+
+def waveletPreprocess(data):
+    wp = pywt.WaveletPacket(data=data, 
+                            wavelet='db3',
+                            mode='symmetric',
+                            maxlevel=8)
+    re = []
+    for i in [node.path for node in wp.get_level(8, 'freq')]:
+        re.append(wp[i].data)
+    #能量特征
+    energy=[]
+    for i in re:
+        energy.append(pow(np.linalg.norm(i,ord=None), 2))
+    energy = np.array(energy[0:64])
+    energy = energy/np.sum(energy)
+    #energy = energy/energy.sum
+    #energy = energy/np.sqrt(np.dot(energy,energy.T))
+    return energy    
+def preProcessAco(data_aco,input_size=32):
     data_aco=data_aco-np.mean(data_aco)
     mfccs = librosa.feature.mfcc(y=data_aco, sr = 22050, S=None, norm = 'ortho', n_mfcc=input_size)
     return np.mean(mfccs.T,axis = 0)

@@ -1,10 +1,12 @@
 import torch
 import torch.nn as nn
-class UrbanSoundModel(nn.Module):
+
+class WaveletAcoModel(nn.Module):
     def __init__(self):
-        super(UrbanSoundModel,self).__init__()
+        super(WaveletAcoModel, self).__init__()
+
         self.network = nn.Sequential(
-            nn.Linear(32,128),
+            nn.Linear(64,128),
             nn.ReLU(),
             nn.Linear(128,256),
             nn.ReLU(),
@@ -14,6 +16,6 @@ class UrbanSoundModel(nn.Module):
             nn.Linear(64, 3),
             nn.Sigmoid()
             )
-    def forward(self, xb):
-        #xb = torch.tensor(xb, dtype=torch.float32)
-        return self.network(xb)
+    def forward(self,x):
+        x =self.network(x)
+        return x

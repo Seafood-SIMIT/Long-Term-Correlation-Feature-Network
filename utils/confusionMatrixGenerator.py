@@ -11,7 +11,8 @@ from sklearn.metrics import confusion_matrix    # 生成混淆矩阵函数
 def confusionMatrixGenerator(pred, labels):
     #print(np.argmax(np.array(pred),axis=1))
     cm = confusion_matrix(pred, np.array(labels))
-    return cm
+    acc = np.sum(np.array(pred)==np.array(labels))/len(labels)
+    return cm,acc
 
 
 def plot_confusion_matrix(cm,number_fig,name):
@@ -29,5 +30,5 @@ def plot_confusion_matrix(cm,number_fig,name):
     for first_index in range(len(cm)):    #第几行
         for second_index in range(len(cm[first_index])):    #第几列
             plt.text(first_index, second_index, cm[first_index][second_index])
-    plt.show()
+    #plt.show()
     plt.savefig(os.path.join('output',str(number_fig)+name+'.png'),format='png')

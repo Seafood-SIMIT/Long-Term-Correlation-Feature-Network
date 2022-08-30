@@ -1,38 +1,59 @@
 # -*- coding: utf-8 -*-
+from itertools import count
+from os import system
+from statistics import mode
 import sys
+from compareAlgo import *
 import torch
-sys.path.append('/Users/sunlin/Documents/workdir/vehicleClassification')
-from results.models.aco_model.acoClassifier import ACOClassifier
-from results.models.seis_model.seisClassifier import SEISClassifier
-from compareAlgo.MFCC.MediumScaleModel import SeismicNet
-from compareAlgo.MFCC.UrbanSoundModel import UrbanSound8KModel
-from deepdsTrainer.DeepDS import DeepDS
-from deepdsTrainer.others import HParam
-def modelGenerator():
-    hp_lstm = HParam('/Users/sunlin/Documents/workdir/vehicleClassification/deepdsTrainer/config.yaml')
+import torchsummary
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+def modelSize(model):
+    print("model_size:  ",count_parameters(model))
+
+def modelGenerator(system_name):
+    if system_name == "wsl":
+        model_file = "/home/seafood/workdir/vehicleClassification/results/models/"
+    else:
+        model_file = "/Users/sunlin/Documents/workdir/vehicleClassification/results/models/"
     #加载声音模型
-    model_aco = ACOClassifier()
-    chckt = torch.load('/Users/sunlin/Documents/workdir/vehicleClassification/results/models/aco_model/model_aco.pt',map_location=torch.device('cpu'))
+    model_aco = ACOClassifierLSTM(1,128,2)
+    chckt = torch.load('models/aco_model/acoAlexNet0322-1705moreepoch_checkout_86step[71.56].pt',map_location=torch.device('cpu'))
     model_aco.load_state_dict(chckt['model'])
     model_aco.eval()
+    modelSize(model_aco)
     #加载震动模型
-    model_seis = SEISClassifier()
-    chckt = torch.load('/Users/sunlin/Documents/workdir/vehicleClassification/results/models/seis_model/model_seis.pt',map_location=torch.device('cpu'))
+    model_seis = SEISClassifierLSTM(1,128,2)
+    chckt = torch.load('models/seis_model/seisAlexNet0322-1134_checkout_38step[83.35].pt',map_location=torch.device('cpu'))
     model_seis.load_state_dict(chckt['model'])
     model_seis.eval()
+    modelSize(model_seis)
     #加载LSTM模型
-    model_lstm = DeepDS(hp_lstm)
-    chckt = torch.load('/Users/sunlin/Documents/workdir/vehicleClassification/results/models/lstm_model/DeepDStest39step[1.00].pt',map_location=torch.device('cpu'))
+    model_lstm = DeepDS(input_size = 6,hidden_size=16)
+    chckt = torch.load(model_file+'lstm_model/DeepDSltcfn0323-1116form19step[0.97].pt',map_location=torch.device('cpu'))
     model_lstm.load_state_dict(chckt['model'])
     model_lstm.eval()
+    modelSize(model_lstm)
     return model_aco, model_seis, model_lstm
 
 def modelCompareGenerate():
-    model_seis=SeismicNet(class_num=5)
-    model_seis.load_state_dict(torch.load('/Users/sunlin/Documents/workdir/vehicleClassification/results/compareAlgo/MFCC/model_seis.pth',map_location='cpu'))
+    model_seis=SeismicNet()
+    model_seis.load_state_dict(torch.load('models/medium_model/seismicNet0322-2252form_checkout_70step[78.32].pt',map_location='cpu')['model'])
     model_seis.eval()
+    modelSize(model_seis)
     
-    model_aco=UrbanSound8KModel()
-    model_aco.load_state_dict(torch.load('/Users/sunlin/Documents/workdir/vehicleClassification/results/compareAlgo/MFCC/model_aco.pth',map_location='cpu'))
+    model_aco=UrbanSoundModel()
+    model_aco.load_state_dict(torch.load('models/mfcc_model/acoMFCC0322-2257form_checkout_26step[80.30].pt',map_location='cpu')['model'])
     model_aco.eval()
-    return model_aco, model_seis
+    modelSize(model_aco)
+    
+    model_aco_wavalet = WaveletAcoModel()
+    model_aco_wavalet.load_state_dict(torch.load('models/wavelet_aco_model/waveletAco0322-1807_checkout_196step[61.51].pt',map_location='cpu')['model'])
+    model_aco_wavalet.eval()
+    modelSize(model_aco_wavalet)
+    
+    model_seis_wavalet = WaveletSeisModel()
+    model_seis_wavalet.load_state_dict(torch.load('models/wavelet_seis_model/waveletSeis0322-1821_checkout_196step[80.13].pt',map_location='cpu')['model'])
+    model_seis_wavalet.eval()
+    modelSize(model_seis_wavalet)
+    return model_aco, model_seis,model_aco_wavalet, model_seis_wavalet
