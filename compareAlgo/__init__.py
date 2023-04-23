@@ -1,9 +1,9 @@
-__all__=['ACOClassifierLSTM','SEISClassifierLSTM','SeismicNet','UrbanSoundModel','WaveletAcoModel','WaveletSeisModel',
+__all__=['ACOAlexNetBiLSTM','SEISAlexNetBiLSTM','SeismicNet','UrbanSoundModel','WaveletAcoModel','WaveletSeisModel',
             'DeepDS','xiao2020DSFusion','hu2014DSFusion','classicDSFusion']
 from compareAlgo.MFCC.acoClassifierLSTM import ACOClassifierLSTM
 from compareAlgo.MFCC.seisClassifierLSTM import SEISClassifierLSTM
 from compareAlgo.MFCC.seismicNet import SeismicNet 
-from compareAlgo.proposedMethod import DeepDS
+from compareAlgo.proposedMethod import DeepDS,ACOAlexNetBiLSTM,SEISAlexNetBiLSTM
 from compareAlgo.MFCC.urbanSoundModel import UrbanSoundModel
 from compareAlgo.MFCC.waveletAcoModel import WaveletAcoModel
 from compareAlgo.MFCC.waveletSeisModel import WaveletSeisModel

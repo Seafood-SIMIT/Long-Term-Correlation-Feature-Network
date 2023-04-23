@@ -5,14 +5,21 @@
 @混淆矩阵生成
 '''
 import os
+from traceback import print_tb
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix    # 生成混淆矩阵函数
+from sklearn.metrics import confusion_matrix, roc_curve, auc    # 生成混淆矩阵函数
 def confusionMatrixGenerator(pred, labels):
     #print(np.argmax(np.array(pred),axis=1))
-    cm = confusion_matrix(pred, np.array(labels))
-    acc = np.sum(np.array(pred)==np.array(labels))/len(labels)
-    return cm,acc
+    cm = confusion_matrix(pred, labels)
+
+    #print(pred.shape)
+    #print(label.shape)
+    #acc = np.sum(np.array(pred)==np.array(labels))/len(labels)
+    fpr,tpr,_ = roc_curve(labels,pred,pos_label=1)
+    roc_auc = auc(fpr,tpr)
+    print("AUC score: ",roc_auc)
+    return cm,roc_auc
 
 
 def plot_confusion_matrix(cm,number_fig,name):

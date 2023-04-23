@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from itertools import count
-from os import system
-from statistics import mode
-import sys
 from compareAlgo import *
 import torch
 import torchsummary
@@ -14,23 +11,24 @@ def modelSize(model):
 def modelGenerator(system_name):
     if system_name == "wsl":
         model_file = "/home/seafood/workdir/vehicleClassification/results/models/"
-    else:
-        model_file = "/Users/sunlin/Documents/workdir/vehicleClassification/results/models/"
+    elif system_name == "macos":
+        model_file = "/Users/sunlin/Documents/workdir/vehicleClassification/vehicleClassification/results/models/"
+        #model_file = "/Users/sunlin/Documents/workdir/vehicleClassification/results/models/"
     #加载声音模型
-    model_aco = ACOClassifierLSTM(1,128,2)
-    chckt = torch.load('models/aco_model/acoAlexNet0322-1705moreepoch_checkout_86step[71.56].pt',map_location=torch.device('cpu'))
+    model_aco = ACOAlexNetBiLSTM(3)
+    chckt = torch.load('models/aco_model/aco20220917alexNetcheckout78step[0.76].pt',map_location=torch.device('cpu'))
     model_aco.load_state_dict(chckt['model'])
     model_aco.eval()
     modelSize(model_aco)
     #加载震动模型
-    model_seis = SEISClassifierLSTM(1,128,2)
-    chckt = torch.load('models/seis_model/seisAlexNet0322-1134_checkout_38step[83.35].pt',map_location=torch.device('cpu'))
+    model_seis = SEISAlexNetBiLSTM(3)
+    chckt = torch.load('models/seis_model/seis20220919AlexNetcheckout78step[0.77].pt',map_location=torch.device('cpu'))
     model_seis.load_state_dict(chckt['model'])
     model_seis.eval()
     modelSize(model_seis)
     #加载LSTM模型
     model_lstm = DeepDS(input_size = 6,hidden_size=16)
-    chckt = torch.load(model_file+'lstm_model/DeepDSltcfn0323-1116form19step[0.97].pt',map_location=torch.device('cpu'))
+    chckt = torch.load(model_file+'lstm_model/lstm.pt',map_location=torch.device('cpu'))
     model_lstm.load_state_dict(chckt['model'])
     model_lstm.eval()
     modelSize(model_lstm)

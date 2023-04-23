@@ -2,3 +2,4 @@ models/
 __pycache__/
 output/
 */__pycache__/
+data/

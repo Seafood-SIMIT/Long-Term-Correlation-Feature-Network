@@ -27,3 +27,7 @@ class DeepDS(nn.Module):
         x = self.fc(x)
         return x
 
+if '__name__' == '__main__':
+    x = torch.randn([1,500,6])
+    deep_ds = DeepDS(6,16)
+    print(deep_ds(x))

@@ -27,9 +27,10 @@ def waveletPreprocess(data):
     #energy = energy/energy.sum
     #energy = energy/np.sqrt(np.dot(energy,energy.T))
     return energy    
+
 def preProcessAco(data_aco,input_size=32):
     data_aco=data_aco-np.mean(data_aco)
-    mfccs = librosa.feature.mfcc(y=data_aco, sr = 22050, S=None, norm = 'ortho', n_mfcc=input_size)
+    mfccs = librosa.feature.mfcc(y=data_aco, sr = 1024, S=None, norm = 'ortho', n_mfcc=input_size)
     return np.mean(mfccs.T,axis = 0)
 
 

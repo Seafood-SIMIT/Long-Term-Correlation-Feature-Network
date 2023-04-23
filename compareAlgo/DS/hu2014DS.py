@@ -23,10 +23,8 @@ def fuseResultCal(out_aco_BPA,out_semi_BPA):
     fuse_ans = np.argmax(mass_improved_hu,axis=1)
     return fuse_ans
 def hu2014DSFusion(pba_aco,pba_seis,label):
-    count =0 
+    fuse_ans = []
     for i in range(len(label)):
-        fuse_ans = fuseResultCal(pba_aco[i],pba_seis[i])
-        if fuse_ans == label[i]:
-            count +=1
-    return count/len(label)
-    
+        fuse_ans.append( fuseResultCal(pba_aco[i],pba_seis[i]))
+
+    return fuse_ans

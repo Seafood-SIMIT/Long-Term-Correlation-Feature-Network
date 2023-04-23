@@ -1,0 +1,33 @@
+
+'''
+[acc_aco,acc_seis,acc_aco_mfcc,acc_seis_medium,acc_aco_wavelet,acc_seis_wavelet]=resultClassifier(
+                theOutputfromArray(predict_aco),
+                theOutputfromArray(predict_seis),
+                theOutputfromArray(predict_aco_mfcc),
+                theOutputfromArray(predict_seis_medium),
+                theOutputfromArray(predict_aco_wavelet),
+                theOutputfromArray(predict_seis_wavelet),
+                label_per,
+                count_frame)
+
+
+print("The accuracy of acc is %.4f \nThe accuracy of seis is %.4f " % (acc_aco,acc_seis))
+resultClassifierCompareWithOther(predict_aco,predict_seis,
+                                 label_per,
+                                 predict_aco_mfcc,predict_seis_medium,
+                                 predict_aco_wavelet,predict_seis_wavelet)
+#resultLSTM()
+print("Compare classifier Algo Down")
+
+print("The accuracy of mfcc is %.4f \nThe accuracy of medium scale is %.4f \nThe accuracy of wavelet_aco is %.4f \nThe accuracy of wavelet_seis is %.4f \n" % (acc_aco_mfcc,acc_seis_medium,acc_aco_wavelet,acc_seis_wavelet))
+print("Now generating the comfusion matrix of LTCFN")
+acc_lstm=resultFusion(
+                theOutputfromArray(predict_lstm),labels
+)
+print("The accuracy of LTCFN is %.4f" % acc_lstm)
+[acc_ds_origin,acc_ds_hu2014, acc_ds_xiao2022]=resultFusionCompareWithOther(predict_aco,predict_seis,
+                                 label_per)
+#print(cm)
+print("The accuracy of DS Evidence is %.4f \nThe accuracy of hu2014 is %.4f \nThe accuracy of xiao2020 is %.4f \n" % (acc_ds_origin,acc_ds_hu2014, acc_ds_xiao2022))
+#print(acc/count_file)
+'''

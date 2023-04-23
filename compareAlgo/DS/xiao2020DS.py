@@ -28,9 +28,14 @@ def fuseResultCal(out_aco_BPA,out_semi_BPA):
     k_improved_xiao = np.dot(np.dot(mass, con_matrix),out_fuse_BPA_xiao.T)
     con_mass_improved_xiao = 1/(1-k_improved_xiao)
     mass_improved_xiao = con_mass_improved_xiao * np.multiply(mass, out_fuse_BPA_xiao)
-    fuse_ans = np.argmax(mass_improved_xiao,axis=1)
+    fuse_ans =mass_improved_xiao
     return fuse_ans
 def xiao2020DSFusion(pba_aco,pba_seis,label):
+    fuse_ans = []
+    for i in range(len(label)):
+        fuse_ans.append( fuseResultCal(pba_aco[i],pba_seis[i]))
+
+    return fuse_ans
     count =0 
     for i in range(len(label)):
         fuse_ans = fuseResultCal(pba_aco[i],pba_seis[i])

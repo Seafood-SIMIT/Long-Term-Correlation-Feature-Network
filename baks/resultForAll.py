@@ -8,7 +8,7 @@ Created on Tue Feb  8 16:44:49 2022
 from utils.accCalculator import theOutputfromArray
 from modelGenerator import modelGenerator, modelCompareGenerate
 from utils.readData import normaLization,readDataFilelists,readDataInFile,preProcessAco,waveletPreprocess
-from classificationPerformance import resultClassifier, classificationPerform,resultClassifierCompareWithOther
+from classificationPerformance import resultClassifier, classificationPerform,resultClassifierCompareWithOther,classificationProject
 from fusionPerformance import resultFusionCompareWithOther, ltcfnPerform,resultFusion
 from tqdm import tqdm
 
@@ -20,11 +20,11 @@ import numpy as np
 
 import torch
 
-system_name = 'wsl'
+system_name = 'macos'
 model_aco, model_seis, model_lstm = modelGenerator(system_name)
 model_aco_mfcc, model_seis_medium,model_aco_wavelet, model_seis_wavelet = modelCompareGenerate()
 
-data_dir = '../data'
+data_dir = '/Volumes/T7/DataBase/aco_seis_Dataset/validset'
 
 frame_length = 1024
 aco_dir, seis_dir,aco_filelist, seis_filelist = readDataFilelists(data_dir)
@@ -88,32 +88,14 @@ for index in tqdm(range(len(aco_filelist))):
     labels.append(label)
     count_file+=1
 print("Perform Down, Acc Counting")
-[acc_aco,acc_seis,acc_aco_mfcc,acc_seis_medium,acc_aco_wavelet,acc_seis_wavelet]=resultClassifier(
-                theOutputfromArray(predict_aco),
-                theOutputfromArray(predict_seis),
-                theOutputfromArray(predict_aco_mfcc),
-                theOutputfromArray(predict_seis_medium),
-                theOutputfromArray(predict_aco_wavelet),
-                theOutputfromArray(predict_seis_wavelet),
-                label_per,
-                count_frame)
+target_names = ['light wheel vehicle', 'heavy wheel vehicle ','tracked vehicle']
+# proposed method
+resultClassifier(predict_aco,predict_seis, predict_aco_mfcc, predict_seis_medium, predict_aco_wavelet,
+                                    predict_seis_wavelet, label_per, frame_length, label_per)
+classificationProject('proposed',labels,label_per,predict_aco,
+                        predict_aco_mfcc,predict_aco_mfcc,predict_aco_wavelet,
+                        predict_seis,predict_seis_medium,predict_seis_wavelet,
+                        predict_lstm, target_names)
 
-print("The accuracy of acc is %.4f \nThe accuracy of seis is %.4f " % (acc_aco,acc_seis))
-resultClassifierCompareWithOther(predict_aco,predict_seis,
-                                 label_per,
-                                 predict_aco_mfcc,predict_seis_medium,
-                                 predict_aco_wavelet,predict_seis_wavelet)
-#resultLSTM()
-print("Compare classifier Algo Down")
 
-print("The accuracy of mfcc is %.4f \nThe accuracy of medium scale is %.4f \nThe accuracy of wavelet_aco is %.4f \nThe accuracy of wavelet_seis is %.4f \n" % (acc_aco_mfcc,acc_seis_medium,acc_aco_wavelet,acc_seis_wavelet))
-print("Now generating the comfusion matrix of LTCFN")
-acc_lstm=resultFusion(
-                theOutputfromArray(predict_lstm),labels
-)
-print("The accuracy of LTCFN is %.4f" % acc_lstm)
-[acc_ds_origin,acc_ds_hu2014, acc_ds_xiao2022]=resultFusionCompareWithOther(predict_aco,predict_seis,
-                                 label_per)
-#print(cm)
-print("The accuracy of DS Evidence is %.4f \nThe accuracy of hu2014 is %.4f \nThe accuracy of xiao2020 is %.4f \n" % (acc_ds_origin,acc_ds_hu2014, acc_ds_xiao2022))
-#print(acc/count_file)
+fusionProject(labels, predict_aco, predict_seis)
