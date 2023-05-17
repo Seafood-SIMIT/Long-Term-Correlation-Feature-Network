@@ -7,7 +7,7 @@ LTCFN
 
 ![基本Idea](LTCFN.png)
 
-    @INPROCEEDINGS{9624499,
+    [@INPROCEEDINGS{9624499,
     author={Sun, Lin and Liu, Jianpo and Liu, Yuanqing and Li, Baoqing},
     booktitle={2021 International Conference on Control, Automation and Information Sciences (ICCAIS)}, 
     title={HRRP Target Recognition Based On Soft-Boundary Deep SVDD With LSTM}, 
@@ -15,7 +15,7 @@ LTCFN
     volume={},
     number={},
     pages={1047-1052},
-    doi={10.1109/ICCAIS52680.2021.9624499}}
+    doi={10.1109/ICCAIS52680.2021.9624499}}](https://cdn-datasets.huggingface.co/EsperBERTo/data/oscar.eo.txt)
 
 ## 结果介绍
 ![valid confusion matrix](cm_ltcfn.png)
