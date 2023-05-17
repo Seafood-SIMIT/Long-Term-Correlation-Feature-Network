@@ -8,14 +8,14 @@ LTCFN
 ![基本Idea](LTCFN.png)
 
     @ARTICLE{10093799,
-  author={Sun, Lin and Zhang, Zebin and Tang, Hongying and Liu, Huawei and Li, Baoqing},
-  journal={IEEE Sensors Journal}, 
-  title={Vehicle Acoustic and Seismic Synchronization Signal Classification Using Long-Term Features}, 
-  year={2023},
-  volume={23},
-  number={10},
-  pages={10871-10878},
-  doi={10.1109/JSEN.2023.3263572}}
+    author={Sun, Lin and Zhang, Zebin and Tang, Hongying and Liu, Huawei and Li, Baoqing},
+    journal={IEEE Sensors Journal}, 
+    title={Vehicle Acoustic and Seismic Synchronization Signal Classification Using Long-Term Features}, 
+    year={2023},
+    volume={23},
+    number={10},
+    pages={10871-10878},
+    doi={10.1109/JSEN.2023.3263572}}
 
 
 ## 结果介绍
