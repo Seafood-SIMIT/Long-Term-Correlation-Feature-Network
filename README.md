@@ -7,15 +7,16 @@ LTCFN
 
 ![基本Idea](LTCFN.png)
 
-    [@INPROCEEDINGS{9624499,
-    author={Sun, Lin and Liu, Jianpo and Liu, Yuanqing and Li, Baoqing},
-    booktitle={2021 International Conference on Control, Automation and Information Sciences (ICCAIS)}, 
-    title={HRRP Target Recognition Based On Soft-Boundary Deep SVDD With LSTM}, 
-    year={2021},
-    volume={},
-    number={},
-    pages={1047-1052},
-    doi={10.1109/ICCAIS52680.2021.9624499}}](https://cdn-datasets.huggingface.co/EsperBERTo/data/oscar.eo.txt)
+    @ARTICLE{10093799,
+  author={Sun, Lin and Zhang, Zebin and Tang, Hongying and Liu, Huawei and Li, Baoqing},
+  journal={IEEE Sensors Journal}, 
+  title={Vehicle Acoustic and Seismic Synchronization Signal Classification Using Long-Term Features}, 
+  year={2023},
+  volume={23},
+  number={10},
+  pages={10871-10878},
+  doi={10.1109/JSEN.2023.3263572}}
+
 
 ## 结果介绍
 ![valid confusion matrix](cm_ltcfn.png)
